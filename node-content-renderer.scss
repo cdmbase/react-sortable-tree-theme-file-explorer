@@ -358,7 +358,7 @@ $highlight-line-size: 6px; // Make it an even number for clean rendering
   opacity: 0.7;
 }
 
-@media (min-width: 1000px) {
+@media (max-width: 1000px) {
   .rowWrapper {
     &:hover {
       & div > div > div > ul > .counter {
