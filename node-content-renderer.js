@@ -163,14 +163,15 @@ class FileThemeNodeContentRenderer extends Component {
             (node.active ? ` ${styles.activeField}` : '')
           }
           onClick={() => {
+            toggleChildrenVisibility({node, path, treeIndex});
             // toggleActiveField({node, path})
             // node.active = !node.active;
-            console.log(node.active, 'active???')
+            console.log(node, 'active???')
           }}
         >
           {/* Set the row preview to be used during drag and drop */}
           {connectDragPreview(
-            <div style={{ display: 'flex', width: '100px'}} >
+            <div style={{ display: 'flex', width: '100%', height: '1px'}} >
               {scaffold}
               <div
                 className={
@@ -181,20 +182,16 @@ class FileThemeNodeContentRenderer extends Component {
                     : '') +
                   (isSearchMatch ? ` ${styles.rowSearchMatch}` : '') +
                   (isSearchFocus ? ` ${styles.rowSearchFocus}` : '') +
-                  (className ? ` ${className}` : '')
+                  (className ? ` ${className}` : '') + ` ${styles.rowWidth}`
                 }
                 style={{
                   opacity: isDraggedDescendant ? 0.5 : 1,
                   ...style,
                 }}
                 >
-                <div
-                  className={
-                    styles.rowContents +
-                    (!canDrag ? ` ${styles.rowContentsDragDisabled}` : '')
-                  }
-                >
-                  <div className={styles.rowToolbar}>
+                {/*backgroundColor: 'red'*/}
+                <div className={styles.rowContents + (!canDrag ? ` ${styles.rowContentsDragDisabled}` : '')}>
+                  <div className={styles.rowToolbar} >
                     {icons.map((icon, index) => (
                       <div
                         key={index} // eslint-disable-line react/no-array-index-key
@@ -204,7 +201,7 @@ class FileThemeNodeContentRenderer extends Component {
                       </div>
                     ))}
                   </div>
-                  <div className={styles.rowLabel} onClick={() => toggleChildrenVisibility({node, path, treeIndex})}>
+                  <div className={`${styles.rowLabel} ${styles.toolbarButtonHelper}`} onClick={() => toggleChildrenVisibility({node, path, treeIndex})} >
                     <span className={styles.rowTitle} title={nodeTitle}>
                       {typeof nodeTitle === 'function'
                         ? nodeTitle({
@@ -216,29 +213,28 @@ class FileThemeNodeContentRenderer extends Component {
                     </span>
                   </div>
 
-                  <div className={styles.rowToolbar}
-                  onClick={() => toggleChildrenVisibility({node, path, treeIndex})} >
+                  <div className={`${styles.rowToolbar}`}
+                  onClick={() => toggleChildrenVisibility({node, path, treeIndex})}>
                     {buttons.map((btn, index) => (
                       <div
                         key={index} // eslint-disable-line react/no-array-index-key
-                        className={styles.toolbarButton}
+                        className={`${styles.toolbarButton}`}
                         style={btn.props.children ? null : {margin: '0px'}}
                       >
-                        {btn}
+                        {/*{btn}*/}
                       {!node.children && (
-                      <ul style={{
-                        display: 'contents',
-                            listStyle: 'none',
-                      }}>
-                        <li>
-                          <a className={styles.replaceField}
-                             title={'Replace'}
-                             onClick={node.replaceField} />
-                        </li>
-                        <li>
-                          <a className={styles.removeFromTreeBtn} onClick={node.removeField} />
-                        </li>
-                      </ul>
+                        <div className={`${styles.actionsContainer}, ${styles.toolbarButtonHelper}`} style={{display: 'contents'}} >
+                          <ul className={styles.actionBtnList}>
+                            {!node.replace ? <li className={styles.actionListItem}>
+                              <a className={styles.replaceField}
+                                 title={'Replace'}
+                                 onClick={node.replaceField} />
+                            </li> : null }
+                            <li className={styles.actionListItem}>
+                              <a className={styles.removeFromTreeBtn} onClick={node.removeField} />
+                            </li>
+                          </ul>
+                        </div>
                       )}
                     </div>
                   ))}
@@ -246,23 +242,21 @@ class FileThemeNodeContentRenderer extends Component {
                     {toggleChildrenVisibility &&
                     node.children &&
                     node.children.length > 0 && (
-                        ////
-                      <ul style={{
-                          display: 'contents',
-                          listStyle: 'none',
-                      }}>
-                        <li className={styles.counter}>
-                          {node.children.length}
-                        </li>
-                        <li>
-                          <a className={styles.replaceFile}
-                          title={'Replace All'}
-                          onClick={node.replaceAllInFile} />
-                        </li>
-                          <li>
-                            <a className={styles.removeFromTreeBtn} onClick={node.removeFile} />
+                      <div className={styles.actionsContainer} >
+                        <ul className={styles.actionBtnList}>
+                          <li className={styles.counter}>
+                            {node.children.length}
                           </li>
-                      </ul>
+                          {!node.replace ? <li className={styles.actionListItem}>
+                            <a className={styles.replaceFile}
+                               title={'Replace All'}
+                               onClick={node.replaceAllInFile} />
+                          </li> : null }
+                            <li className={styles.actionListItem}>
+                              <a className={styles.removeFromTreeBtn} onClick={node.removeFile} />
+                            </li>
+                        </ul>
+                      </div>
                     )}
                         </div>
                       </div>
@@ -270,7 +264,8 @@ class FileThemeNodeContentRenderer extends Component {
                   )}
         </div>
       </div>
-    );
+
+  );
 
     return canDrag
       ? connectDragSource(nodeContent, { dropEffect: 'copy' })
