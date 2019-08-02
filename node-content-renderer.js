@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import ReactHtmlParser from 'react-html-parser';
@@ -163,18 +165,17 @@ class FileThemeNodeContentRenderer extends Component {
             (node.active ? ` ${styles.activeField}` : '')
           }
           onClick={() => {
-              toggleChildrenVisibility({node, path, treeIndex})
-              // toggleActiveField({node, path})
+            toggleChildrenVisibility({ node, path, treeIndex })
+            // toggleActiveField({node, path})
             // node.active = !node.active;
             if (node.openFile) {
               node.openFile();
             }
-            console.log(node.active, 'active???')
           }}
         >
           {/* Set the row preview to be used during drag and drop */}
           {connectDragPreview(
-            <div style={{ display: 'flex', width: '100px'}} >
+            <div style={{ display: 'flex', width: '100px' }} >
               {scaffold}
               <div
                 className={
@@ -191,7 +192,7 @@ class FileThemeNodeContentRenderer extends Component {
                   opacity: isDraggedDescendant ? 0.5 : 1,
                   ...style,
                 }}
-                >
+              >
                 <div
                   className={
                     styles.rowContents +
@@ -208,70 +209,70 @@ class FileThemeNodeContentRenderer extends Component {
                       </div>
                     ))}
                   </div>
-                  <div className={styles.rowLabel} onClick={() => toggleChildrenVisibility({node, path, treeIndex})}>
+                  <div className={styles.rowLabel} onClick={() => toggleChildrenVisibility({ node, path, treeIndex })}>
                     <span className={styles.rowTitle} title={nodeTitle}>
                       {typeof nodeTitle === 'function'
                         ? nodeTitle({
-                            node,
-                            path,
-                            treeIndex,
-                          })
-                          : ReactHtmlParser(nodeTitle)}
+                          node,
+                          path,
+                          treeIndex,
+                        })
+                        : ReactHtmlParser(nodeTitle)}
                     </span>
                   </div>
 
-                  <div className={styles.rowToolbar}
-                  onClick={() => toggleChildrenVisibility({node, path, treeIndex})} >
+                  <div className={styles.rowToolbar} onClick={() => toggleChildrenVisibility({ node, path, treeIndex })} >
                     {buttons.map((btn, index) => (
                       <div
                         key={index} // eslint-disable-line react/no-array-index-key
                         className={styles.toolbarButton}
-                        style={btn.props.children ? null : {margin: '0px'}}
+                        style={btn.props.children ? null : { margin: '0px' }}
                       >
                         {btn}
-                      {!node.children && (
-                      <ul style={{
-                        display: 'contents',
+                        {!node.children && (
+                          <ul style={{
+                            display: 'contents',
                             listStyle: 'none',
-                      }}>
-                        <li>
-                          <a className={styles.replaceField}
-                             title={'Replace'}
-                             onClick={node.replaceField} />
-                        </li>
-                        <li>
-                          <a className={styles.removeFromTreeBtn} onClick={node.removeField} />
-                        </li>
-                      </ul>
-                      )}
-                    </div>
-                  ))}
+                          }}>
+                            <li>
+                              <button
+                                className={styles.replaceField}
+                                title='Replace'
+                                onClick={node.replaceField}
+                              />
+                            </li>
+                            <li>
+                              <button className={styles.removeFromTreeBtn} onClick={node.removeField} />
+                            </li>
+                          </ul>
+                        )}
+                      </div>
+                    ))}
                   </div>
-                    {toggleChildrenVisibility &&
+                  {toggleChildrenVisibility &&
                     node.children &&
                     node.children.length > 0 && (
-                        ////
                       <ul style={{
-                          display: 'contents',
-                          listStyle: 'none',
+                        display: 'contents',
+                        listStyle: 'none',
                       }}>
                         <li className={styles.counter}>
                           {node.children.length}
                         </li>
                         <li>
-                          <a className={styles.replaceFile}
-                          title={'Replace All'}
-                          onClick={node.replaceAllInFile} />
+                          <button className={styles.replaceFile}
+                            title='Replace All'
+                            onClick={node.replaceAllInFile} />
                         </li>
-                          <li>
-                            <a className={styles.removeFromTreeBtn} onClick={node.removeFile} />
-                          </li>
+                        <li>
+                          <button className={styles.removeFromTreeBtn} onClick={node.removeFile} />
+                        </li>
                       </ul>
                     )}
-                        </div>
-                      </div>
-                    </div>
-                  )}
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     );

@@ -1,6 +1,8 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable arrow-body-style */
 import React, { Component } from 'react';
 import SortableTree, { toggleExpandedForAll } from 'react-sortable-tree';
-import ReactHtmlParser, { processNodes, convertNodeToElement, htmlparser2 } from 'react-html-parser';
+import ReactHtmlParser from 'react-html-parser';
 import FileExplorerTheme from '../index';
 import './app.css';
 

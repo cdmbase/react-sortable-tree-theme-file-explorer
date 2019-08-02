@@ -1,7 +1,7 @@
 {
-  "name": "react-sortable-tree-theme-file-explorer",
-  "version": "3.0.0",
-  "description": "File explorer theme for react-sortable-tree",
+  "name": "@cdmbase/react-sortable-tree-theme-finder-explorer",
+  "version": "4.0.0",
+  "description": "Finder explorer theme for react-sortable-tree",
   "scripts": {
     "build": "npm run clean && cross-env NODE_ENV=production TARGET=umd webpack --bail",
     "build:demo": "npm run clean:demo && cross-env NODE_ENV=production TARGET=demo webpack --bail",
@@ -12,6 +12,9 @@
     "prettier": "prettier --single-quote --trailing-comma es5 --write \"**/*.{js,jsx,css,scss}\"",
     "prepublishOnly": "npm run lint && npm run test && npm run build",
     "test": "jest"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "main": "dist/main.js",
   "files": [
